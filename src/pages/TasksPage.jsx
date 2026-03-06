@@ -87,7 +87,7 @@ export const TasksPage = ({ tasks, user, users, clients, onTask }) => {
               <div key={i} style={{ fontSize:11, fontWeight:600, color:'var(--text3)', textTransform:'uppercase', letterSpacing:'0.05em' }}>{h}</div>
             ))}
           </div>
-          {visible.map(t => <TaskRow key={t.id} task={t} users={users} onClick={() => onTask(t)} />)}
+          {visible.map(t => <TaskRow key={t.id} task={t} users={users} clients={clients} onClick={() => onTask(t)} />)}
           {!visible.length && <div style={{ textAlign:'center', padding:40, color:'var(--text3)' }}>No tasks match your filters.</div>}
         </>
       )}
