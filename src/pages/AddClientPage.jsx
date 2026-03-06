@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { CONSTITUTIONS, ROLES } from '../constants.js'
 import { generateTasks } from '../utils/taskGenerator.js'
 import { addClient, bulkAddTasks } from '../hooks/useFirestore.js'
+import { logClientOnboarded } from '../utils/auditLog.js'
 import { Label, Alert } from '../components/UI.jsx'
 
-export const AddClientPage = ({ users, onBack, onSuccess }) => {
+export const AddClientPage = ({ users, onBack, onSuccess, currentUser }) => {
   const [form, setForm] = useState({
     name: '', constitution: 'Private Limited', gstin: '', pan: '', tan: '',
     gstApplicable: false, gstFreq: 'monthly',
@@ -47,6 +48,7 @@ export const AddClientPage = ({ users, onBack, onSuccess }) => {
       const clientWithId = { ...form, id: docRef.id }
       const tasks   = generateTasks(clientWithId, form.assignedTo, form.fy)
       await bulkAddTasks(tasks)
+      if (currentUser) await logClientOnboarded({ ...form, id: docRef.id }, currentUser)
       setSuccess(true)
       setTimeout(() => { onSuccess(); onBack() }, 1500)
     } catch (e) { setError(e.message) } finally { setSaving(false) }
