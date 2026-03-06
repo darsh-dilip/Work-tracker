@@ -15,7 +15,7 @@ const BUCKETS = [
   { key:'dropped', label:'🗑 Dropped',            color:'#4a5578', defaultOpen:false },
 ]
 
-export const DashboardPage = ({ tasks, user, users, onTask }) => {
+export const DashboardPage = ({ tasks, user, users, clients, onTask }) => {
   const mine = tasks.filter(t => t.assignedTo === user.id)
 
   const allVisible = useMemo(() => {
